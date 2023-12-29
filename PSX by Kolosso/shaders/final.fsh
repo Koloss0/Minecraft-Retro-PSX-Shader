@@ -1,6 +1,5 @@
 #version 120
-#define final
-#define requires_resolution
+
 #include "shaders.settings"
 
 // Most of the CRT visual effects were adapted from Mattias' shadertoy shader:
@@ -141,12 +140,12 @@ float noiseWaves(vec2 uv, float time) {
 }
 
 vec2 pixelate(vec2 uv) {
-#if screen_resolution < 10000 // ## change this to screen_resolution != -1?
-	uv *= screen_resolution;
+#if SCREEN_RESOLUTION < 10000 // ## change this to SCREEN_RESOLUTION != -1?
+	uv *= SCREEN_RESOLUTION;
 	uv.x *= aspectRatio;
 	uv = floor(uv);
 	uv.x /= aspectRatio;
-	uv /= screen_resolution;
+	uv /= SCREEN_RESOLUTION;
 #endif
 
 	return uv;
@@ -176,10 +175,10 @@ void main() {
 	uv = curve(uv);
 #endif
 	
-	float x_offset = noise_waves*noiseWaves(uv, frameTimeCounter*2.0);
+	float x_offset = NOISE_WAVES*noiseWaves(uv, frameTimeCounter*2.0);
 	
-	float fuzzy = snoise(vec2(frameTimeCounter*20.0,uv.y*80.0))*0.001*fuzziness;
-	float big_fuzzy = snoise(vec2(frameTimeCounter*10.0,uv.y*30.0))*0.001*fuzziness;
+	float fuzzy = snoise(vec2(frameTimeCounter*20.0,uv.y*80.0))*0.001*FUZZINESS;
+	float big_fuzzy = snoise(vec2(frameTimeCounter*10.0,uv.y*30.0))*0.001*FUZZINESS;
 	x_offset += fuzzy + big_fuzzy;
 	
 	vec2 offset_uv = uv + vec2(x_offset,0.0);
@@ -187,11 +186,11 @@ void main() {
 	// pixelate
 	vec2 pix = pixelate(offset_uv);
 
-#if screen_resolution < 10000
+#if SCREEN_RESOLUTION < 10000
 	// get pixel collumn/row
-	ivec2 pixel = ivec2(offset_uv*float(screen_resolution)*vec2(aspectRatio,1));
+	ivec2 pixel = ivec2(offset_uv*float(SCREEN_RESOLUTION)*vec2(aspectRatio,1));
 #endif
-#if screen_resolution == 10000
+#if SCREEN_RESOLUTION == 10000
 	ivec2 pixel = ivec2(offset_uv*float(viewHeight));
 #endif
 
@@ -201,25 +200,25 @@ void main() {
 
 	ivec3 c = ivec3(round(color * 255.0));
 	
-#ifdef dither
+#ifdef ENABLE_DITHER
 	// Apply the dithering pattern
 	c += ivec3(dithering_pattern(pixel));
 #endif
 
-	// Truncate from 8 bits to color_depth bits
-	c >>= (8 - color_depth);
+	// Truncate from 8 bits to COLOR_DEPTH bits
+	c >>= (8 - COLOR_DEPTH);
 	
 	// Convert back to [0.0, 1.0] range
-	color = vec3(c) / float(1 << color_depth);
+	color = vec3(c) / float(1 << COLOR_DEPTH);
 
 	//color = floor(color*64.0+0.5)/64.0;
 
-#if rgb_offset > 0
-	float channel_offset = rgb_offset*0.001 + x_offset*0.5;
+#if RGB_OFFSET > 0
+	float channel_offset = RGB_OFFSET*0.001 + x_offset*0.5;
 	float r = texture2D(gcolor,mod(pixelate(uv+vec2(channel_offset,0.0)),1.0)).r;
 	float b = texture2D(gcolor,mod(pixelate(uv-vec2(0.5*channel_offset,0.0)),1.0)).b;
-	color.r = mix(color.r,r,rgb_offset_strength*0.01);
-	color.b = mix(color.b,b,rgb_offset_strength*0.01);
+	color.r = mix(color.r,r,RGB_OFFSET_STRENGTH*0.01);
+	color.b = mix(color.b,b,RGB_OFFSET_STRENGTH*0.01);
 #endif
 	
 	// HDR

@@ -1,43 +1,30 @@
-option.screen_resolution=Screen Resolution
-value.screen_resolution.10000=Normal
-value.screen_resolution.320=320 (PS1)
+option.CLASSIC=Emulate Classic Lighting
 
-option.hdr=HDR
+option.HDR=HDR
+option.CRT=CRT
+option.NOISE_WAVES=Noise Waves
+option.FUZZINESS=Fuzziness
+option.RGB_OFFSET=RGB Separation
+option.RGB_OFFSET_STRENGTH=RGB Offset Strength
 
-option.crt=CRT
+option.SCREEN_RESOLUTION=Screen Resolution
+value.SCREEN_RESOLUTION.10000=Normal
+value.SCREEN_RESOLUTION.320=320 (PS1)
 
-option.classic=Emulate Classic Lighting
+option.COLOR_DEPTH=Color Depth
+option.ENABLE_DITHER=Dither
 
-option.noise_waves=Noise Waves
-option.fuzziness=Fuzziness
-option.rgb_offset=RGB Separation
-option.rgb_offset_strength=RGB Offset Strength
+option.TEXTURE_WARPING=Texture Warping
+value.TEXTURE_WARPING.0=Off
+value.TEXTURE_WARPING.32=Obnoxious
 
-option.dither=Dither
+option.JITTERINESS=Jitter
+value.JITTERINESS.0=Off
+value.JITTERINESS.1=1x (PS1)
+value.JITTERINESS.2=2x
+value.JITTERINESS.3=3x
+value.JITTERINESS.4=4x
+value.JITTERINESS.5=5x
 
 screen.Fun=Fun Settings :D
-
-option.disco=Disco
-
-option.texture_warping=Texture Warping
-value.texture_warping.0=Off
-value.texture_warping.32=Obnoxious
-
-option.jitteriness=Jitter
-value.jitteriness.0=Off
-value.jitteriness.1=1x (PS1)
-value.jitteriness.2=2x
-value.jitteriness.3=3x
-value.jitteriness.4=4x
-value.jitteriness.5=5x
-
-option.texture_swap=Texture Swap
-value.texture_swap.4=Normal
-value.texture_swap.5=1
-value.texture_swap.6=2
-value.texture_swap.7=3
-value.texture_swap.8=4
-value.texture_swap.0=5
-value.texture_swap.1=6
-value.texture_swap.2=7
-value.texture_swap.3=8
+option.DISCO=Disco

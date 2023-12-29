@@ -1,7 +1,5 @@
 #version 120
-#define gbuffers_textured
-#define requires_resolution
-#define requires_classic
+
 #include "shaders.settings"
 
 varying vec4 color;
@@ -53,11 +51,11 @@ void main() {
 	texcoord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).xy;
 	lmcoord = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy;
 	tc = texcoord;
-#ifdef classic // DROP SHADOWS
+#ifdef CLASSIC // DROP SHADOWS
 	if (lmcoord.t < 0.9375) {
 		lmcoord.t = 0.28125;
 	}
-	lmcoord.s = 0.0; // no block light in classic
+	lmcoord.s = 0.0; // no block light in CLASSIC
 #endif
 
 	normal = normalize(mat3(gbufferModelViewInverse) * gl_NormalMatrix * gl_Normal);
@@ -71,31 +69,25 @@ void main() {
 
 	vec4 projVertex = gl_ProjectionMatrix * gbufferModelView * vec4(position, 1.0);
 
-#if texture_warping > 0
+#if TEXTURE_WARPING > 0
 	float vertex_distance = length((gl_ModelViewMatrix * gl_Vertex));
-	float affine = vertex_distance + ((projVertex.w * texture_warping) / vertex_distance) * 0.5; // Perspective-incorrect texture mapping
+	float affine = vertex_distance + ((projVertex.w * TEXTURE_WARPING) / vertex_distance) * 0.5; // Perspective-incorrect texture mapping
 	tc *= affine; // Passing out modified texture coordinates
 	vaffine = affine;
 #endif
 
-	int swap_index = texture_swap;
-	int swap_y = int(swap_index / 3.0) - 1;
-	int swap_x = swap_index % 3 - 1;
-
-	tc += vec2(swap_x,swap_y)*0.015625;
-
-#if jitteriness > 0 && screen_resolution < 10000
-	gl_Position = snap(projVertex,vec2(screen_resolution*aspectRatio,screen_resolution)/jitteriness);
+#if JITTERINESS > 0 && SCREEN_RESOLUTION < 10000
+	gl_Position = snap(projVertex,vec2(SCREEN_RESOLUTION*aspectRatio,SCREEN_RESOLUTION)/JITTERINESS);
 #endif
-#if jitteriness > 0 && screen_resolution == 10000
-	gl_Position = snap(projVertex,vec2(viewWidth,viewHeight)/jitteriness);
+#if JITTERINESS > 0 && SCREEN_RESOLUTION == 10000
+	gl_Position = snap(projVertex,vec2(viewWidth,viewHeight)/JITTERINESS);
 #endif
 
-#if jitteriness == 0
+#if JITTERINESS == 0
 	gl_Position = projVertex;
 #endif
 /*
-#ifdef classic
+#ifdef CLASSIC
 	color = vec4(gl_Color.xyz,1.0);
 	if (renderStage == MC_RENDER_STAGE_TERRAIN_TRANSLUCENT) {
 		color.rgb *= gl_Color.a;

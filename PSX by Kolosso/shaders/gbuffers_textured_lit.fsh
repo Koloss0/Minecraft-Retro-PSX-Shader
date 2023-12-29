@@ -1,7 +1,5 @@
 #version 120
 
-#define gbuffers_textured
-#define requires_disco
 #include "shaders.settings"
 
 varying vec4 color;
@@ -54,7 +52,7 @@ vec3 getDiscoColour(float time) {
 void main() {
 	vec2 texCoords = tc;
 	
-#if texture_warping > 0
+#if TEXTURE_WARPING > 0
 	texCoords /= vaffine;
 #endif
 
@@ -65,10 +63,10 @@ void main() {
 	gl_FragData[0] = albedo;
 
 	//Fog
-#ifndef disco
+#ifndef DISCO
 	vec3 fogCol = gl_Fog.color.rgb;
 #endif
-#ifdef disco
+#ifdef DISCO
 	vec3 fogCol = getDiscoColour(frameTimeCounter);
 #endif
 

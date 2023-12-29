@@ -1,7 +1,5 @@
 #version 120
 
-#define requires_disco
-#define requires_classic
 #include "shaders.settings"
 
 varying vec4 color;
@@ -47,13 +45,13 @@ void main() {
 	
 	gl_FragData[0] = color;
 
-	// disco
-#ifdef disco
+	// DISCO
+#ifdef DISCO
 	gl_FragData[0].rgb = getDiscoColour(frameTimeCounter);
 #else
 /*
 	vec3 fogCol = gl_Fog.color.rgb;
-#ifdef classic
+#ifdef CLASSIC
 	fogCol = getClassicFog();
 #endif
 */	
