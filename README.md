@@ -31,7 +31,7 @@ For a more detailed explanation, refer to [this article](https://www.selecthub.c
 
 **Install the Shader:**
 
- 1. **Download** the shader by clicking `Code > Download Zip` at the top of this page.
+ 1. **Download** the shader by clicking `Code` then `Download Zip` at the top of this page.
  2. Find the `.zip` file in your Downloads and **extract**.
  3. Open the folder and copy `PSX by Kolosso`.
  4. If you are on Windows, open the search bar from your taskbar and type `%appdata%`
